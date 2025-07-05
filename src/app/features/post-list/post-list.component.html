@@ -1,0 +1,41 @@
+<div class="post-list-container">
+  <div class="main-title">
+    <h1>
+      Post
+      <!-- extra effort to bump solution value, calculation intentially executed here -->
+      <mat-icon
+        matBadge="{{ postsFacade.posts().length - seenPosts.size }}"
+        matBadgeColor="accent"
+        matBadgeOverlap="false"
+        >List</mat-icon
+      >
+    </h1>
+  </div>
+  <mat-list>
+    <mat-list-item *ngFor="let post of postsFacade.posts()">
+      <!--extra effort unseen class as part of tracking algo -->
+      <a
+        (click)="onShowPostDetails(post)"
+        class="post-title"
+        [class.unseen]="!seenPosts.has(post.id)"
+      >
+        {{ post.title }}
+      </a>
+    </mat-list-item>
+  </mat-list>
+  <!-- extra effort changable post limit-->
+  <div>
+    <mat-form-field appearance="fill" color="primary">
+      <mat-label>Select an option</mat-label>
+      <mat-select
+        [ariaValueMin]=""
+        [(ngModel)]="selectedLimit"
+        (ngModelChange)="onUpdateCount()"
+      >
+        <mat-option *ngFor="let count of showPostCounts" [value]="count"
+          >{{ count }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
