@@ -7,8 +7,9 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { Post } from '../../../../core/models/post.interface';
+import { Post } from '../../../../state/news.model';
 import { MatButtonModule } from '@angular/material/button';
+import { UpFirstPipe } from '../../../../../../shared/pipes/up-first.pipe';
 
 @Component({
   selector: 'app-post-details-dialog',
@@ -19,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatDialogTitle,
     MatDialogClose,
     MatButtonModule,
+    UpFirstPipe,
   ],
   templateUrl: './post-details-dialog.component.html',
 })

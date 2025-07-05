@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_URL, DEF_POST_NUM } from '../constants';
-import { Post } from '../models/post.interface';
+import { API_URL, DEF_POST_NUM } from '../shared/constants';
+import { Post } from '../modules/news/state/news.model';
 
 @Injectable({
   providedIn: 'root',
