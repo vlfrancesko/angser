@@ -14,7 +14,13 @@ import { PostsFacade } from '../../state/news.facade';
 import { POST_COUNTS, DEF_POST_NUM } from '../../../../shared/constants';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+
+export interface PostCache {
+  seen: number[];
+  limit: number;
+}
 
 @Component({
   selector: 'app-post-list',
@@ -26,18 +32,27 @@ import { FormsModule } from '@angular/forms';
     MatBadgeModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatIconModule,
     FormsModule,
   ],
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.scss',
 })
 export class PostListComponent implements OnInit {
-  constructor(public postsFacade: PostsFacade, private dialog: MatDialog) {}
   //extra effort keep track of seen/unseen posts
   //also demontration of Set (which is perfect for this case)
   seenPosts = new Set<number>();
   selectedLimit: number = DEF_POST_NUM;
   posts: Post[] = [];
+
+  constructor(public postsFacade: PostsFacade, private dialog: MatDialog) {
+    const savedPostString: string | null = localStorage.getItem('postData');
+    if (savedPostString) {
+      const postData: PostCache = JSON.parse(savedPostString);
+      this.selectedLimit = postData?.limit ?? DEF_POST_NUM;
+      this.seenPosts = new Set(postData.seen);
+    }
+  }
 
   ngOnInit(): void {
     this.postsFacade.loadNews();
@@ -52,10 +67,18 @@ export class PostListComponent implements OnInit {
     });
   }
 
+  markUnseen(id: number) {
+    if (this.seenPosts.has(id)) {
+      this.seenPosts.delete(id);
+      this.cachePostData();
+    }
+  }
+
   onShowPostDetails(post: Post) {
     //extra effort seen/unseen posts
     if (!this.seenPosts.has(post.id)) {
       this.seenPosts.add(post.id);
+      this.cachePostData();
     }
 
     //display details via dialog to bump solution value a bit
@@ -69,9 +92,20 @@ export class PostListComponent implements OnInit {
   //extra effort number of shopwn posts
   onUpdateCount() {
     this.postsFacade.loadNews(this.selectedLimit);
+    this.cachePostData();
   }
 
   get showPostCounts() {
     return POST_COUNTS;
+  }
+
+  //extra effort lightweight caching system
+  cachePostData() {
+    const postData: PostCache = {
+      seen: Array.from(this.seenPosts) ?? [],
+      limit: this.selectedLimit,
+    };
+
+    localStorage.setItem('postData', JSON.stringify(postData));
   }
 }
