@@ -1,0 +1,30 @@
+.post-list-container {
+  min-width: 50%;
+  max-width: 80%;
+  padding: 2vw;
+}
+
+.main-title {
+  padding-left: 2vw;
+}
+
+.post-title {
+  cursor: pointer;
+}
+
+.post-title:hover {
+  font-weight: 600;
+  color: #673ab7;
+}
+
+mat-list-item {
+  border-bottom: solid gray 1px;
+}
+
+mat-list-item:first-child {
+  border-top: solid gray 1px;
+}
+
+.unseen {
+  font-weight: 600;
+}
