@@ -1,4 +1,10 @@
 import { Routes } from '@angular/router';
-import { PostListComponent } from './features/post-list/post-list.component';
 
-export const routes: Routes = [{ path: '', component: PostListComponent }];
+export const routes: Routes = [
+  { path: '', redirectTo: 'news', pathMatch: 'full' },
+  {
+    path: 'news',
+    loadChildren: () =>
+      import('./modules/news/news.module').then((m) => m.NewsModule),
+  },
+];

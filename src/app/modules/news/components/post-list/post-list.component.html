@@ -4,7 +4,7 @@
       Post
       <!-- extra effort to bump solution value, calculation intentially executed here -->
       <mat-icon
-        matBadge="{{ postsFacade.posts().length - seenPosts.size }}"
+        matBadge="{{ posts.length - seenPosts.size }}"
         matBadgeColor="accent"
         matBadgeOverlap="false"
         >List</mat-icon
@@ -12,7 +12,7 @@
     </h1>
   </div>
   <mat-list>
-    <mat-list-item *ngFor="let post of postsFacade.posts()">
+    <mat-list-item *ngFor="let post of posts">
       <!--extra effort unseen class as part of tracking algo -->
       <a
         (click)="onShowPostDetails(post)"

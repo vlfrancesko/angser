@@ -1,6 +1,7 @@
 <!-- all pretty straight forward -->
 <h2 mat-dialog-title>{{ data.title }}</h2>
-<mat-dialog-content> {{ data.body }} </mat-dialog-content>
+<!-- extra effort pipe example for a bit of bump -->
+<mat-dialog-content> {{ data.body | upFirst }} </mat-dialog-content>
 <mat-dialog-actions style="justify-content: end">
   <button matButton mat-flat-button mat-dialog-close color="accent">
     Close
