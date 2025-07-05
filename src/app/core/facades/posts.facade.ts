@@ -11,8 +11,8 @@ export class PostsFacade {
 
   constructor(private api: PostsService) {}
 
-  loadPosts() {
-    this.api.getAllPosts().subscribe((posts) => this.posts.set(posts));
+  loadPosts(limit?: number) {
+    this.api.getAllPosts(limit).subscribe((posts) => this.posts.set(posts));
   }
 
   loadPost(id: number) {
