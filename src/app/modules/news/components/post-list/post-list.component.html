@@ -1,37 +1,43 @@
 <div class="post-list-container">
   <div class="main-title">
     <h1>
-      Post
+      Posts
       <!-- extra effort to bump solution value, calculation intentially executed here -->
       <mat-icon
         matBadge="{{ posts.length - seenPosts.size }}"
         matBadgeColor="accent"
         matBadgeOverlap="false"
-        >List</mat-icon
-      >
+        aria-hidden="false"
+        style="max-width: 0.1vw !important"
+      ></mat-icon>
     </h1>
   </div>
   <mat-list>
     <mat-list-item *ngFor="let post of posts">
       <!--extra effort unseen class as part of tracking algo -->
       <a
-        (click)="onShowPostDetails(post)"
         class="post-title"
         [class.unseen]="!seenPosts.has(post.id)"
+        (click)="onShowPostDetails(post)"
       >
         {{ post.title }}
       </a>
+      <button
+        *ngIf="seenPosts.has(post.id)"
+        mat-icon-button
+        title="Mark Unseen"
+        class="post-title"
+        (click)="markUnseen(post.id)"
+      >
+        <mat-icon>flag</mat-icon>
+      </button>
     </mat-list-item>
   </mat-list>
   <!-- extra effort changable post limit-->
   <div>
-    <mat-form-field appearance="fill" color="primary">
-      <mat-label>Select an option</mat-label>
-      <mat-select
-        [ariaValueMin]=""
-        [(ngModel)]="selectedLimit"
-        (ngModelChange)="onUpdateCount()"
-      >
+    <mat-form-field appearance="outline" color="primary">
+      <mat-label>Show</mat-label>
+      <mat-select [(ngModel)]="selectedLimit" (ngModelChange)="onUpdateCount()">
         <mat-option *ngFor="let count of showPostCounts" [value]="count"
           >{{ count }}
         </mat-option>
